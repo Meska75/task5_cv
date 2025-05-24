@@ -3023,8 +3023,8 @@ html[dir="rtl"] #footer .nav .nav-item:last-child .nav-link {
   color: #00acee;
 }
 
-.social-icons li:hover.social-icons-linkedin a,
-.social-icons.social-icons-colored li.social-icons-linkedin a {
+.social-icons li:hover.social-icons-facebook a,
+.social-icons.social-icons-colored li.social-icons-facebook a {
   color: #3b5998;
 }
 
