@@ -1,845 +1,235 @@
 {% extends "base.html" %}
 {% load static custom_filters %}
-{% block content %}
 
+{% block body %}
+<div x-data="{ menu: false }" class="min-h-screen">
 
-      <!-- Content
-  ============================================= -->
-      <div id="content" role="main">
-        <!-- Intro
-    ============================================= -->
-        <section id="home">
-          <div class="hero-wrap">
-            <div class="hero-mask opacity-8 bg-dark"></div>
-            <div
-              class="hero-bg parallax"
-              style="
-                background-image: url('{% static 'images/intro-bg.jpg' %}');
-              "
-            ></div>
-            <div class="hero-content section d-flex min-vh-100">
-              <div class="container my-auto">
-                <div class="row">
-                  <div class="col-12 text-center">
-                    <div class="typed-strings">
-                      <p
-                        dir="rtl"
-                        style="text-align: justify; text-align-last: right"
-                      >
-                        محمد اسکندرلو هستم
-                      </p>
-                      <p
-                        dir="rtl"
-                        style="text-align: justify; text-align-last: right"
-                      >
-                        من یک برنامه نویس آزاد هستم
-                      </p>
-                      <p
-                        dir="rtl"
-                        style="text-align: justify; text-align-last: right"
-                      >
-                        میتونم کدنویسی بک اند انجام بدم
-                      </p>
-                      <p
-                        dir="rtl"
-                        style="text-align: justify; text-align-last: right"
-                      >
-                        میتون از مدل های زبانی بزرگ هوش مصنوعی اسفتاده کنم
-                      </p>
-                    </div>
-                    <p class="text-7 fw-500 text-white mb-2 mb-md-3">سلام</p>
-                    <h2 class="text-16 fw-600 text-white mb-2 mb-md-3">
-                      <span class="typed"></span>
-                    </h2>
-                    <p class="text-5 text-light mb-4">موقعیت: تهران</p>
-                    <a
-                      href="{% url 'my_cv:ai_chat_view' %}"
-                      class="btn btn-outline-primary rounded-pill shadow-none mt-2"
-                      >تماس سریع با من</a
-                    >
-                  </div>
-                </div>
-              </div>
-              <a
-                href="#about"
-                class="scroll-down-arrow text-white smooth-scroll"
-                ><span class="animated"><i class="fa fa-chevron-down"></i></span
-              ></a>
-            </div>
+  <!-- ===== NAV ===== -->
+  <header class="sticky top-0 z-40 backdrop-blur bg-bg/80 border-b border-surface">
+    <nav class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
+      <a href="#hero" class="font-mono text-lg font-bold tracking-tight">
+        <span class="text-accent">&gt;_</span> meska<span class="text-accent">.</span>
+      </a>
+
+      <div class="hidden md:flex items-center gap-7 text-sm text-muted">
+        <a href="#about" class="hover:text-ink transition-colors">درباره</a>
+        <a href="#skills" class="hover:text-ink transition-colors">مهارت‌ها</a>
+        <a href="#projects" class="hover:text-ink transition-colors">پروژه‌ها</a>
+        <a href="#experience" class="hover:text-ink transition-colors">تجربه</a>
+        <a href="#contact" class="hover:text-ink transition-colors">تماس</a>
+      </div>
+
+      <a href="#contact"
+         class="hidden md:inline-flex items-center gap-2 text-sm font-medium bg-accent text-bg px-4 py-2 rounded-lg hover:bg-accent2 transition-colors">
+        بریم همکاری کنیم
+      </a>
+
+      <button @click="menu = !menu" class="md:hidden text-ink" aria-label="منو">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </nav>
+
+    <div x-show="menu" x-cloak @click="menu=false" class="md:hidden border-t border-surface px-5 py-4 flex flex-col gap-4 text-muted">
+      <a href="#about">درباره</a><a href="#skills">مهارت‌ها</a><a href="#projects">پروژه‌ها</a>
+      <a href="#experience">تجربه</a><a href="#contact">تماس</a>
+    </div>
+  </header>
+
+  {% if profile %}
+  <!-- ===== HERO ===== -->
+  <section id="hero" class="grid-bg">
+    <div class="max-w-6xl mx-auto px-5 py-16 md:py-24">
+      <div class="grid lg:grid-cols-3 gap-5">
+
+        <!-- main identity card -->
+        <div class="lg:col-span-2 bg-surface/60 border border-surface2/60 rounded-2xl p-8 md:p-10 flex flex-col justify-center">
+          {% if profile.available_for_work %}
+          <span class="inline-flex items-center gap-2 text-xs font-mono text-accent mb-5">
+            <span class="relative flex h-2 w-2"><span class="animate-ping absolute h-2 w-2 rounded-full bg-accent opacity-75"></span><span class="relative rounded-full h-2 w-2 bg-accent"></span></span>
+            آماده‌ی همکاری
+          </span>
+          {% endif %}
+          <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4">{{ profile.full_name }}</h1>
+          <p class="text-accent font-mono text-base md:text-lg mb-4">{{ profile.headline }}</p>
+          <p class="text-muted text-lg leading-relaxed max-w-2xl">{{ profile.tagline }}</p>
+
+          <div class="flex flex-wrap gap-3 mt-8">
+            <a href="#projects" class="bg-accent text-bg font-medium px-5 py-3 rounded-lg hover:bg-accent2 transition-colors">دیدن پروژه‌ها</a>
+            <a href="#contact" class="border border-surface2 px-5 py-3 rounded-lg hover:border-accent transition-colors">تماس با من</a>
           </div>
-        </section>
-        <!-- Intro end -->
-
-        <!-- About
-    ============================================= -->
-        <section id="about" class="section">
-          <div class="container px-lg-5">
-            <!-- Heading -->
-            <div class="position-relative d-flex text-center mb-5">
-              <h2
-                class="text-24 text-light opacity-4 text-uppercase fw-600 w-100 mb-0"
-              >
-                درباره من
-              </h2>
-              <p
-                class="text-9 text-dark fw-600 position-absolute w-100 align-self-center lh-base mb-0"
-              >
-                بهتر منو بشناس<span
-                  class="heading-separator-line border-bottom border-3 border-primary d-block mx-auto"
-                ></span>
-              </p>
-            </div>
-            <!-- Heading end-->
-
-            <div
-              class="row gy-5"
-              dir="rtl"
-              style="text-align: justify; text-align-last: right"
-            >
-              <div
-                class="col-lg-7 col-xl-8 text-center text-lg-start"
-                dir="rtl"
-                style="text-align: justify; text-align-last: right"
-              >
-                <h2
-                  class="text-7 fw-600 mb-3"
-                  dir="rtl"
-                  style="text-align: justify; text-align-last: right"
-                >
-                  من <span class="text-primary">محمد اسکندرلو</span> هستم؛ یک
-                  برنامه نویس بک اند و هوش مصنوعی
-                </h2>
-                <p
-                  dir="rtl"
-                  style="text-align: justify; text-align-last: right"
-                >
-                  من یک برنامه‌نویس بک‌اند با تمرکز بر جنگو هستم که به تحلیل
-                  داده با ابزارهایی مثل اکسل پیشرفته و Power BI تسلط دارم.
-                  همچنین توانایی پیاده‌سازی راهکارهای هوشمندسازی با استفاده از
-                  LangChain و Hugging Face را دارم و همیشه به دنبال یادگیری و حل
-                  مسئله‌های خلاقانه‌ام.
-                </p>
-                <p
-                  dir="rtl"
-                  style="text-align: justify; text-align-last: right"
-                >
-                  می‌توانم سامانه‌های بک‌اند را با استفاده از Django طراحی و
-                  پیاده‌سازی کنم، داده‌ها را تحلیل کرده و داشبوردهای مدیریتی
-                  حرفه‌ای با Excel پیشرفته و Power BI ایجاد کنم. همچنین در زمینه
-                  هوشمندسازی فرآیندها و ساخت ابزارهای مبتنی بر هوش مصنوعی با
-                  استفاده از LangChain و مدل‌های Hugging Face توانایی دارم.
-                  ترکیب این مهارت‌ها به من این امکان را می‌دهد تا راهکارهایی
-                  یکپارچه، کارآمد و نوآورانه برای نیازهای نرم‌افزاری و داده‌محور
-                  ارائه دهم.
-                </p>
-              </div>
-              <div class="col-lg-5 col-xl-4">
-                <div
-                  class="ps-lg-4"
-                  dir="rtl"
-                  style="text-align: justify; text-align-last: right"
-                >
-                  <ul class="list-style-2">
-                    <li class="">
-                      <span class="fw-600 me-2">نام : </span>{{ name }}
-                    </li>
-                    <li class="">
-                      <span class="fw-600 me-2">ایمیل: </span
-                      ><a href="Mohammad.eska34@gmail.com"
-                        >{{ email }}</a
-                      >
-                    </li>
-                    <li class=""><span class="fw-600 me-2">سن : </span>{{ birth_date|calculate_age|to_persian_numbers }}</li>
-                    <li class="border-0">
-                      <span class="fw-600 me-2">ساکن : </span>{{ location }}
-                    </li>
-                  </ul>
-                  <a
-                    href="https://jobvision.ir/cv/95169416-102542"
-                    class="btn btn-primary rounded-pill"
-                    >دانلود رزومه</a
-                  >
-                </div>
-              </div>
-            </div>
-            <div class="brands-grid separator-border mt-5">
-              <div class="row">
-                <div class="col-6 col-md-3">
-                  <div class="featured-box text-center">
-                    <h4 class="text-12 text-muted mb-0">
-                      <span class="counter" data-from="0" data-to="2">2</span>+
-                    </h4>
-                    <p class="mb-0">سال تجربه</p>
-                  </div>
-                </div>
-                <div class="col-6 col-md-3">
-                  <div class="featured-box text-center">
-                    <h4 class="text-12 text-muted mb-0">
-                      <span class="counter" data-from="0" data-to="1">1</span>+
-                    </h4>
-                    <p class="mb-0">مشتری راضی</p>
-                  </div>
-                </div>
-                <div class="col-6 col-md-3">
-                  <div class="featured-box text-center">
-                    <h4 class="text-12 text-muted mb-0">
-                      <span class="counter" data-from="0" data-to="1">1</span>+
-                    </h4>
-                    <p class="mb-0">پروژه انجام شده</p>
-                  </div>
-                </div>
-                <div class="col-6 col-md-3">
-                  <div class="featured-box text-center">
-                    <h4 class="text-12 text-muted mb-0">
-                      <span class="counter" data-from="0" data-to="0">0</span>
-                    </h4>
-                    <p class="mb-0">جوایز دریافت شده</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <!-- About end -->
-
-        <!-- Services
-    ============================================= -->
-        <section id="services" class="section bg-light">
-          <div class="container px-lg-5">
-            <!-- Heading -->
-            <div class="position-relative d-flex text-center mb-5">
-              <h2
-                class="text-24 text-light opacity-4 text-uppercase fw-600 w-100 mb-0"
-              >
-                خدمات
-              </h2>
-              <p
-                class="text-9 text-dark fw-600 position-absolute w-100 align-self-center lh-base mb-0"
-              >
-                چه کارهایی میتونم انجام بدم؟<span
-                  class="heading-separator-line border-bottom border-3 border-primary d-block mx-auto"
-                ></span>
-              </p>
-            </div>
-            <!-- Heading end-->
-
-            <div
-              class="row"
-              dir="rtl"
-              style="text-align: justify; text-align-last: right"
-            >
-              <div class="col-lg-11 mx-auto">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="featured-box style-3 mb-5">
-                      <div
-                        class="featured-box-icon text-primary bg-white shadow-sm rounded"
-                      >
-                        <i class="fas fa-palette"></i>
-                      </div>
-                      <h3>طراحی سایت</h3>
-                      <p class="mb-0">
-                        طراحی و راه اندازی سایت به وسلیه جنگو
-                      </p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="featured-box style-3 mb-5">
-                      <div
-                        class="featured-box-icon text-primary bg-white shadow-sm rounded"
-                      >
-                        <i class="fas fa-desktop"></i>
-                      </div>
-                      <h3>طراحی بک اند</h3>
-                      <p class="mb-0">
-                        طراحی و آماده سازی بک اند سمت سرور سایت جهت اجرا شدن
-                        بدون مشکل سایت و اپلیکیشن ها
-                      </p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="featured-box style-3 mb-5">
-                      <div
-                        class="featured-box-icon text-primary bg-white shadow-sm rounded"
-                      >
-                        <i class="fas fa-pencil-ruler"></i>
-                      </div>
-                      <h3>پردازش اطلاعات</h3>
-                      <p class="mb-0">
-                        بررسی و پردازش اطلاعات کاربران و مراجعین به سایت و
-                        اپلیکیشن جهت بهره برداری بخش های مختلف
-                      </p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="featured-box style-3 mb-5">
-                      <div
-                        class="featured-box-icon text-primary bg-white shadow-sm rounded"
-                      >
-                        <i class="fas fa-paint-brush"></i>
-                      </div>
-                      <h3>تجریه و تحلیل و طراحی داشبورد</h3>
-                      <p class="mb-0">
-                        طراحی داشبورد مدریتی جهت ارائه گزارش به سلسله مراتب
-                        بالاتر
-                      </p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="featured-box style-3 mb-5 mb-md-0">
-                    <div class="featured-box-icon text-primary bg-white shadow-sm rounded">
-                      <i class="fas fa-brain"></i>
-                    </div>
-                      <h3>هوش مصنوعی</h3>
-                      <p class="mb-0">
-                        امکان اتصال مدل های زبانی بزرگ و ابزارهای مختلف جهت
-                        هوشمندسازی کارها و کاهش خطا
-                      </p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="featured-box style-3 mb-0">
-                      <div
-                        class="featured-box-icon text-primary bg-white shadow-sm rounded"
-                      >
-                        <i class="fas fa-bullhorn"></i>
-                      </div>
-                      <h3>پیشبینی اعلان</h3>
-                      <p class="mb-0">
-                        امکان پیشبینی روندها از طریق هوش مصنوعی به صورت لحظه ای
-                        و اعلان پیش از وقوع
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <!-- Services end -->
-
-                <!-- Resume
-    ============================================= -->
-        <!-- <section id="resume" class="section">
-          <div class="container px-lg-5"> -->
-            <!-- Heading -->
-            <!-- <div class="position-relative d-flex text-center mb-5">
-              <p
-                class="text-9 text-dark fw-600 position-absolute w-100 align-self-center lh-base mb-0"
-              >
-                پروژه های انجام شده<span
-                  class="heading-separator-line border-bottom border-3 border-primary d-block mx-auto"
-                ></span>
-              </p>
-            </div> -->
-            <!-- Heading end-->
-
-            <!-- <div
-              class="row gx-5"
-              dir="rtl"
-              style="text-align: justify; text-align-last: right"
-            > -->
-              <!-- My Education -->
-              <!-- <div class="col-md-6">
-                <h2 class="text-6 fw-600 mb-4">طراحی رزومه شخصی آنلاین</h2>
-                <div class="bg-white border rounded p-4 mb-4">
-                  <p class="badge bg-primary text-2 fw-400">1404</p>
-                  <p class="text-danger">HTML , Django</p>
-                  <p class="mb-0">تسک شماره 5 سایت مکتبخونه</p>
-                  <div class="text-center mt-5">
-                    <a
-                      href="https://github.com/Meska75/task5_cv"
-                      class="btn btn-outline-secondary rounded-pill shadow-none"
-                      >گیتهاب پروژه
-                      <span class="ms-1"><i class="fas fa-desktop"></i></span
-                    ></a>
-                  </div>
-                      </div>
-              </div>
-            </div>
-
-        </section> -->
-        <!-- Resume end -->
-
-        <!-- Resume
-    ============================================= -->
-        <section id="resume" class="section">
-          <div class="container px-lg-5">
-            <!-- Heading -->
-            <div class="position-relative d-flex text-center mb-5">
-              <h2
-                class="text-24 text-light opacity-4 text-uppercase fw-600 w-100 mb-0"
-              >
-                چکیده سوابق
-              </h2>
-              <p
-                class="text-9 text-dark fw-600 position-absolute w-100 align-self-center lh-base mb-0"
-              >
-                سوابق کاری و تحصیلی<span
-                  class="heading-separator-line border-bottom border-3 border-primary d-block mx-auto"
-                ></span>
-              </p>
-            </div>
-            <!-- Heading end-->
-
-            <div
-              class="row gx-5"
-              dir="rtl"
-              style="text-align: justify; text-align-last: right"
-            >
-              <!-- My Education -->
-              <div class="col-md-6">
-                <h2 class="text-6 fw-600 mb-4">سوابق تحصیلی</h2>
-                <div class="bg-white border rounded p-4 mb-4">
-                  <p class="badge bg-primary text-2 fw-400">1394 - 1398</p>
-                  <h3 class="text-5">علوم سیاسی</h3>
-                  <p class="mb-0">دانشگاه آزاد اسلامی واحد تهران مرکز</p>
-                </div>
-              </div>
-
-              <!-- My Experience -->
-              <div class="col-md-6">
-                <h2 class="text-6 fw-600 mb-4">تجارب کاری</h2>
-                <div class="bg-white border rounded p-4 mb-4">
-                  <p class="badge bg-primary text-2 fw-400">1397 - 1398</p>
-                  <h3 class="text-5">مسئول دفتر</h3>
-                  <p class="text-danger">انجمن علوم سیاسی ایران</p>
-                  <p class="mb-0">
-                    انجام امور دفتری، هماهنگی جلسات، نشست ها و همایش ها، پیگیری
-                    امور دفتری و فعالیت های اداری بیرون دفتر
-                  </p>
-                </div>
-                <div class="bg-white border rounded p-4 mb-4">
-                  <p class="badge bg-primary text-2 fw-400">1398 - 1399</p>
-                  <h3 class="text-5">
-                    دستیار داخلی حوزه افغانستان بخش بین المللی
-                  </h3>
-                  <p class="text-danger">دفتر خبری</p>
-                  <p class="mb-0">
-                    بررسی امور به روز و لحظه ای اخبار و ارجاع به بخش های مربوطه،
-                    بررسی و رده بندی دستورات و الزامات ریاست و ارجاع به هر بخش
-                  </p>
-                </div>
-                <div class="bg-white border rounded p-4 mb-4">
-                  <p class="badge bg-primary text-2 fw-400">1399 - 1401</p>
-                  <h3 class="text-5">مسئول دبیرخانه</h3>
-                  <p class="text-danger">دادسرای نظامی غرب تهران</p>
-                  <p class="mb-0">
-                    مسئولیت کامل دبیرخانه، دریافت و ارسال پرونده ها و نامه ها،
-                    ثبت و رده بندی اسناد ورودی و خروجی، تهیه گزارشات و ارجاع به
-                    ریاست یا معاونین دادسرا
-                  </p>
-                </div>
-
-                <div class="bg-white border rounded p-4 mb-4">
-                  <p class="badge bg-primary text-2 fw-400">1401 - 1403</p>
-                  <h3 class="text-5">مسئول انتشارات و بازرگانی</h3>
-                  <p class="text-danger">پژوهشکده ابرار معاصر تهران</p>
-                  <p class="mb-0">
-                    مدریت مقدار و کیفیت محصولات چاپی، ایجاد ارتباط با چاپخانه ها
-                    و ویراستاران، تدوین، برسی، انعقاد و چانه زنی قراردادهای
-                    موسسه، نظارت بر تراکنش های مالی و ارائه گزارش های ماهانه و
-                    سالانه، هدایت برگزاری نمایشگاه های مختلف بین المللی و
-                    دانشگاهی
-                  </p>
-                </div>
-                
-              </div>
-            </div>
-
-            <!-- My Skills -->
-            <section id="Skills" class="section">
-              <div class="container">
-                <h2 class="text-6 fw-600 mt-4 mb-4">توانایی ها</h2>
-                <div class="row gx-5">
-                  <!-- ستون اول: مهارت‌های کدنویسی (از زیاد به کم) -->
-                  <div class="col-md-6">
-                    <p class="text-dark fw-500 text-start mb-2">
-                      Langchain <span class="float-end">80%</span>
-                    </p>
-                    <div class="progress progress-sm mb-4">
-                      <div
-                        class="progress-bar"
-                        role="progressbar"
-                        style="width: 80%"
-                        aria-valuenow="80"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    
-                    <p class="text-dark fw-500 text-start mb-2">
-                      Python <span class="float-end">80%</span>
-                    </p>
-                    <div class="progress progress-sm mb-4">
-                      <div
-                        class="progress-bar"
-                        role="progressbar"
-                        style="width: 80%"
-                        aria-valuenow="80"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    
-                    <p class="text-dark fw-500 text-start mb-2">
-                      FastAPI <span class="float-end">70%</span>
-                    </p>
-                    <div class="progress progress-sm mb-4">
-                      <div
-                        class="progress-bar"
-                        role="progressbar"
-                        style="width: 70%"
-                        aria-valuenow="70"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    
-                    <p class="text-dark fw-500 text-start mb-2">
-                      Django <span class="float-end">70%</span>
-                    </p>
-                    <div class="progress progress-sm mb-4">
-                      <div
-                        class="progress-bar"
-                        role="progressbar"
-                        style="width: 70%"
-                        aria-valuenow="70"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    
-                    <p class="text-dark fw-500 text-start mb-2">
-                      Docker <span class="float-end">70%</span>
-                    </p>
-                    <div class="progress progress-sm mb-4">
-                      <div
-                        class="progress-bar"
-                        role="progressbar"
-                        style="width: 70%"
-                        aria-valuenow="70"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    
-                    <p class="text-dark fw-500 text-start mb-2">
-                      Database <span class="float-end">60%</span>
-                    </p>
-                    <div class="progress progress-sm mb-4">
-                      <div
-                        class="progress-bar"
-                        role="progressbar"
-                        style="width: 60%"
-                        aria-valuenow="60"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                  </div>
-                  
-                  <!-- ستون دوم: مهارت‌های غیر کدنویسی (از زیاد به کم) -->
-                  <div class="col-md-6">
-                    <p class="text-dark fw-500 text-start mb-2">
-                      ICDL <span class="float-end">90%</span>
-                    </p>
-                    <div class="progress progress-sm mb-4">
-                      <div
-                        class="progress-bar"
-                        role="progressbar"
-                        style="width: 90%"
-                        aria-valuenow="90"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    
-                    <p class="text-dark fw-500 text-start mb-2">
-                      Expert Excel <span class="float-end">80%</span>
-                    </p>
-                    <div class="progress progress-sm mb-4">
-                      <div
-                        class="progress-bar"
-                        role="progressbar"
-                        style="width: 80%"
-                        aria-valuenow="80"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    
-                    <p class="text-dark fw-500 text-start mb-2">
-                      Arduino <span class="float-end">50%</span>
-                    </p>
-                    <div class="progress progress-sm mb-4">
-                      <div
-                        class="progress-bar"
-                        role="progressbar"
-                        style="width: 50%"
-                        aria-valuenow="50"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    
-                    <p class="text-dark fw-500 text-start mb-2">
-                      Power BI <span class="float-end">40%</span>
-                    </p>
-                    <div class="progress progress-sm mb-4">
-                      <div
-                        class="progress-bar"
-                        role="progressbar"
-                        style="width: 40%"
-                        aria-valuenow="40"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-
-            <div class="text-center mt-5">
-              <a
-                href="https://jobvision.ir/cv/95169416-102542"
-                class="btn btn-outline-secondary rounded-pill shadow-none"
-                >دانلود رزومه
-                <span class="ms-1"><i class="fas fa-download"></i></span
-              ></a>
-            </div>
-          </div>
-        </section>
-        <!-- Resume end -->
-
-        <!-- languages
-    ============================================= -->
-    <section id="languages" class="section">
-      <div class="container px-lg-5">
-        <!-- Heading -->
-        <div class="position-relative d-flex text-center mb-5">
-          <h2
-            class="text-24 text-light opacity-4 text-uppercase fw-600 w-100 mb-0"
-          >
-            زبان های خارجی
-          </h2>
-          <p
-            class="text-9 text-dark fw-600 position-absolute w-100 align-self-center lh-base mb-0"
-          >
-            انگلیسی<span
-              class="heading-separator-line border-bottom border-3 border-primary d-block mx-auto"
-            ></span>
-          </p>
         </div>
-        <!-- My languages -->
-        <div class="row gx-5">
-          <!-- ستون اول -->
-          <div class="col-md-6">
-            <p class="text-dark fw-500 text-start mb-2">
-              Listening <span class="float-end">60%</span>
-            </p>
-            <div class="progress progress-sm mb-4">
-              <div
-                class="progress-bar"
-                role="progressbar"
-                style="width: 60%"
-                aria-valuenow="60"
-                aria-valuemin="0"
-                aria-valuemax="100"
-              ></div>
-            </div>
-            
-            <p class="text-dark fw-500 text-start mb-2">
-              Reading <span class="float-end">60%</span>
-            </p>
-            <div class="progress progress-sm mb-4">
-              <div
-                class="progress-bar"
-                role="progressbar"
-                style="width: 60%"
-                aria-valuenow="60"
-                aria-valuemin="0"
-                aria-valuemax="100"
-              ></div>
-            </div>
-          </div>
 
-          <!-- ستون دوم -->
-          <div class="col-md-6">
-            <p class="text-dark fw-500 text-start mb-2">
-              Writing <span class="float-end">30%</span>
-            </p>
-            <div class="progress progress-sm mb-4">
-              <div
-                class="progress-bar"
-                role="progressbar"
-                style="width: 30%"
-                aria-valuenow="30"
-                aria-valuemin="0"
-                aria-valuemax="100"
-              ></div>
-            </div>
-            
-            <p class="text-dark fw-500 text-start mb-2">
-              Speaking <span class="float-end">10%</span>
-            </p>
-            <div class="progress progress-sm mb-4">
-              <div
-                class="progress-bar"
-                role="progressbar"
-                style="width: 10%"
-                aria-valuenow="10"
-                aria-valuemin="0"
-                aria-valuemax="100"
-              ></div>
-            </div>
+        <!-- terminal card -->
+        <div class="bg-[#0b1120] border border-surface2/60 rounded-2xl overflow-hidden font-mono text-sm">
+          <div class="flex items-center gap-2 px-4 py-3 border-b border-surface2/60">
+            <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+            <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
+            <span class="w-3 h-3 rounded-full bg-accent/80"></span>
+            <span class="text-muted text-xs mr-2">meska@dev</span>
+          </div>
+          <div class="p-4 leading-7 text-right" dir="ltr">
+            <p><span class="text-accent">$</span> whoami</p>
+            <p class="text-muted">{{ profile.full_name }}</p>
+            <p class="mt-2"><span class="text-accent">$</span> cat role.txt</p>
+            <p class="text-muted">Backend · AI · Data</p>
+            <p class="mt-2"><span class="text-accent">$</span> ls skills/</p>
+            <p class="text-muted">python django docker</p>
+            <p class="text-muted">langchain rag postgres</p>
+            <p class="mt-2"><span class="text-accent">$</span> <span class="inline-block w-2 h-4 bg-accent align-middle animate-pulse"></span></p>
           </div>
         </div>
       </div>
-    </section>
-    <!-- language end -->
+    </div>
+  </section>
+  {% endif %}
 
-    {% include "website/certificates.html" %}
+  <!-- ===== ABOUT ===== -->
+  {% if profile.about %}
+  <section id="about" class="max-w-6xl mx-auto px-5 py-16 md:py-20">
+    <div class="flex items-center gap-3 mb-8">
+      <span class="font-mono text-accent text-sm">// 01</span>
+      <h2 class="text-2xl md:text-3xl font-bold">درباره‌ی من</h2>
+      <span class="flex-1 h-px bg-surface2/50"></span>
+    </div>
+    <div class="bg-surface/40 border border-surface2/50 rounded-2xl p-8 md:p-10">
+      <p class="text-lg md:text-xl leading-loose text-ink/90">{{ profile.about }}</p>
+    </div>
+  </section>
+  {% endif %}
 
-        <!-- Contact Me
-    ============================================= -->
-        <section id="contact" class="section bg-light">
-          <div class="container px-lg-5">
-            <!-- Heading -->
-            <div class="position-relative d-flex text-center mb-5">
-              <h2
-                class="text-24 text-light opacity-4 text-uppercase fw-600 w-100 mb-0"
-              >
-                راه های ارتباطی
-              </h2>
-              <p
-                class="text-9 text-dark fw-600 position-absolute w-100 align-self-center lh-base mb-0"
-              >
-                برای در ارتباط بودن<span
-                  class="heading-separator-line border-bottom border-3 border-primary d-block mx-auto"
-                ></span>
-              </p>
-            </div>
-            <!-- Heading end-->
-            <div class="row gy-5">
-              <div
-                class="col-md-4 col-xl-3 order-1 order-md-0 text-center text-md-start"
-              >
-                </p>
-                <p class="text-3 mb-1">
-                  <span class="text-primary text-4 me-2"
-                    ><i class="fas fa-phone"></i></span
-                  >+989337315709
-                </p>
-                <p class="text-3 mb-4">
-                  <span class="text-primary text-4 me-2"
-                    ><i class="fas fa-envelope"></i></span
-                  >mohammad.eska34@gmail.com
-                </p>
-                <h2 class="mb-3 text-5 text-uppercase">Follow Me</h2>
-                <ul
-                  class="social-icons justify-content-center justify-content-md-start"
-                >
-                  <li class="social-icons-dribbble">
-                    <a
-                      data-bs-toggle="tooltip"
-                      href="http://www.dribbble.com/harnishdesign/"
-                      target="_blank"
-                      title="Dribbble"
-                      ><i class="fab fa-dribbble"></i
-                    ></a>
-                  </li>
-                  <li class="social-icons-twitter">
-                    <a
-                      data-bs-toggle="tooltip"
-                      href="https://twitter.com/harnishdesign/"
-                      target="_blank"
-                      title="Twitter"
-                      ><i class="fab fa-twitter"></i
-                    ></a>
-                  </li>
-                  <li class="social-icons-facebook">
-                    <a
-                      data-bs-toggle="tooltip"
-                      href="http://www.facebook.com/harnishdesign/"
-                      target="_blank"
-                      title="Facebook"
-                      ><i class="fab fa-facebook-f"></i
-                    ></a>
-                  </li>
-                  <li class="social-icons-google">
-                    <a
-                      data-bs-toggle="tooltip"
-                      href="http://www.google.com/"
-                      target="_blank"
-                      title="Google"
-                      ><i class="fab fa-google"></i
-                    ></a>
-                  </li>
-                  <li class="social-icons-github">
-                    <a
-                      data-bs-toggle="tooltip"
-                      href="http://www.github.com/"
-                      target="_blank"
-                      title="GitHub"
-                      ><i class="fab fa-github"></i
-                    ></a>
-                  </li>
-                </ul>
-              </div>
-              <div class="col-md-8 col-xl-9 order-0 order-md-1">
-                <h2
-                  class="mb-3 text-5 text-uppercase text-center text-md-start"
-                >
-                  بهم پیام بده
-                </h2>
-                <form id="contact-form" action="index.html" method="post">
-                  <div class="row g-4">
-                    <div class="col-xl-6">
-                      <input
-                        name="name"
-                        type="text"
-                        class="form-control"
-                        required
-                        placeholder="نام"
-                      />
-                    </div>
-                    <div class="col-xl-6">
-                      <input
-                        name="email"
-                        type="email"
-                        class="form-control"
-                        required
-                        placeholder="ایمیل"
-                      />
-                    </div>
-                    <div class="col">
-                      <textarea
-                        name="form-message"
-                        class="form-control"
-                        rows="5"
-                        required
-                        placeholder="برام بنویس ...."
-                      ></textarea>
-                    </div>
-                  </div>
-
-                  <p class="text-center mt-4 mb-0">
-                    <button
-                      id="submit-btn"
-                      class="btn btn-primary rounded-pill d-inline-flex"
-                      type="submit"
-                    >
-                      ارسال پیام
-                    </button>
-                  </p>
-                </form>
-              </div>
-            </div>
-          </div>
-        </section>
-        <!-- Contact Me end -->
+  <!-- ===== SKILLS ===== -->
+  <section id="skills" class="max-w-6xl mx-auto px-5 py-16 md:py-20">
+    <div class="flex items-center gap-3 mb-8">
+      <span class="font-mono text-accent text-sm">// 02</span>
+      <h2 class="text-2xl md:text-3xl font-bold">مهارت‌ها</h2>
+      <span class="flex-1 h-px bg-surface2/50"></span>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {% for cat in skill_categories %}
+      <div class="bg-surface/40 border border-surface2/50 rounded-2xl p-6 card-hover">
+        <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+          {% if cat.icon %}<i class="{{ cat.icon }} text-accent"></i>{% endif %}{{ cat.name }}
+        </h3>
+        <div class="flex flex-wrap gap-2">
+          {% for skill in cat.skills.all %}{% if skill.featured %}
+          <span class="font-mono text-xs bg-bg border border-surface2/60 px-3 py-1.5 rounded-md text-muted hover:text-accent hover:border-accent transition-colors">{{ skill.name }}</span>
+          {% endif %}{% endfor %}
+        </div>
       </div>
-      <!-- Content end -->
-      {% endblock %}
+      {% endfor %}
+    </div>
+  </section>
 
+  <!-- ===== PROJECTS (BENTO) ===== -->
+  <section id="projects" class="max-w-6xl mx-auto px-5 py-16 md:py-20">
+    <div class="flex items-center gap-3 mb-8">
+      <span class="font-mono text-accent text-sm">// 03</span>
+      <h2 class="text-2xl md:text-3xl font-bold">پروژه‌ها</h2>
+      <span class="flex-1 h-px bg-surface2/50"></span>
+    </div>
+    <div class="grid md:grid-cols-2 gap-5 auto-rows-fr">
+      {% for p in projects %}
+      <a href="{% url 'my_cv:project_detail' p.slug %}"
+         class="group bg-surface/40 border border-surface2/50 rounded-2xl p-7 card-hover flex flex-col {% if p.is_featured %}md:col-span-2{% endif %}">
+        <div class="flex items-start justify-between gap-3 mb-3">
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-accent/10 text-accent">{{ p.get_category_display }}</span>
+          <div class="flex items-center gap-2">
+            {% if p.status == 'in_progress' %}<span class="font-mono text-xs text-yellow-400">در حال توسعه</span>{% endif %}
+            {% if p.is_private %}<span class="font-mono text-xs text-muted" title="کد خصوصی">🔒 خصوصی</span>{% endif %}
+          </div>
+        </div>
+        <h3 class="text-xl font-bold mb-2 group-hover:text-accent transition-colors">{{ p.title }}</h3>
+        <p class="text-muted leading-relaxed mb-5 flex-1">{{ p.summary }}</p>
+        <div class="flex flex-wrap gap-2 mb-4">
+          {% for s in p.skills.all %}
+          <span class="font-mono text-xs text-muted bg-bg border border-surface2/50 px-2 py-1 rounded">{{ s.name }}</span>
+          {% endfor %}
+        </div>
+        <span class="font-mono text-sm text-accent inline-flex items-center gap-1">
+          مشاهده‌ی جزئیات <span class="group-hover:-translate-x-1 transition-transform">←</span>
+        </span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
 
+  <!-- ===== EXPERIENCE ===== -->
+  <section id="experience" class="max-w-6xl mx-auto px-5 py-16 md:py-20">
+    <div class="flex items-center gap-3 mb-8">
+      <span class="font-mono text-accent text-sm">// 04</span>
+      <h2 class="text-2xl md:text-3xl font-bold">تجربه‌ی کاری</h2>
+      <span class="flex-1 h-px bg-surface2/50"></span>
+    </div>
+    <div class="relative pr-6 border-r border-surface2/50 space-y-8">
+      {% for e in experiences %}
+      <div class="relative">
+        <span class="absolute -right-[31px] top-1.5 w-3 h-3 rounded-full {% if e.is_current %}bg-accent{% else %}bg-surface2{% endif %} ring-4 ring-bg"></span>
+        <p class="font-mono text-xs text-accent mb-1">{{ e.period }}</p>
+        <h3 class="text-lg font-bold">{{ e.role }}</h3>
+        <p class="text-muted text-sm mb-2">{{ e.organization }}{% if e.location %} · {{ e.location }}{% endif %}</p>
+        <p class="text-ink/80 leading-relaxed text-sm max-w-3xl">{{ e.description }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- ===== CERTIFICATES ===== -->
+  <section id="certificates" class="max-w-6xl mx-auto px-5 py-16 md:py-20">
+    <div class="flex items-center gap-3 mb-8">
+      <span class="font-mono text-accent text-sm">// 05</span>
+      <h2 class="text-2xl md:text-3xl font-bold">دوره‌ها و گواهینامه‌ها</h2>
+      <span class="flex-1 h-px bg-surface2/50"></span>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {% for c in certificates %}
+      <div class="bg-surface/40 border border-surface2/50 rounded-xl p-5 card-hover">
+        <h3 class="font-semibold leading-relaxed">{{ c.title }}</h3>
+        <p class="text-muted text-sm mt-2">
+          {% if c.issuer %}{{ c.issuer }}{% endif %}{% if c.instructor %} · {{ c.instructor }}{% endif %}
+        </p>
+        <p class="font-mono text-xs text-muted mt-2">
+          {% if c.year %}{{ c.year }}{% endif %}{% if c.hours %} · {{ c.hours|to_persian_numbers }} ساعت{% endif %}
+        </p>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section id="contact" class="max-w-6xl mx-auto px-5 py-16 md:py-24">
+    <div class="bg-surface/60 border border-surface2/60 rounded-2xl p-8 md:p-12 text-center">
+      <span class="font-mono text-accent text-sm">// 06 — بریم حرف بزنیم</span>
+      <h2 class="text-3xl md:text-4xl font-bold mt-4 mb-4">یک پروژه یا همکاری در ذهن داری؟</h2>
+      {% if profile %}
+      <p class="text-muted text-lg mb-8 max-w-xl mx-auto">از ساخت بک‌اند و پلتفرم داده تا راه‌حل‌های هوش مصنوعی — خوشحال می‌شم بشنوم.</p>
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        {% if profile.email %}
+        <a href="mailto:{{ profile.email }}" class="bg-accent text-bg font-medium px-6 py-3 rounded-lg hover:bg-accent2 transition-colors">{{ profile.email }}</a>
+        {% endif %}
+        {% if profile.show_phone and profile.phone %}
+        <a href="tel:{{ profile.phone }}" class="border border-surface2 px-6 py-3 rounded-lg hover:border-accent transition-colors font-mono">{{ profile.phone }}</a>
+        {% endif %}
+      </div>
+      {% endif %}
+      {% if social_links %}
+      <div class="flex items-center justify-center gap-5 mt-8 text-2xl text-muted">
+        {% for link in social_links %}
+        <a href="{{ link.url }}" target="_blank" rel="noopener" title="{{ link.label }}" class="hover:text-accent transition-colors">
+          {% if link.icon %}<i class="{{ link.icon }}"></i>{% else %}{{ link.label }}{% endif %}
+        </a>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="border-t border-surface">
+    <div class="max-w-6xl mx-auto px-5 py-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-muted">
+      <p class="font-mono"><span class="text-accent">&gt;_</span> ساخته‌شده با Django + Tailwind</p>
+      <p>© {% now "Y" %} {% if profile %}{{ profile.full_name }}{% endif %}</p>
+    </div>
+  </footer>
+
+</div>
+{% endblock %}

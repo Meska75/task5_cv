@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>جانم؟</title>
+  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: 'Vazirmatn', system-ui, sans-serif;
+      background: radial-gradient(circle at 50% 30%, #1e293b 0%, #0b1120 70%);
+      color: #f8fafc;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 2rem; gap: 1.5rem;
+    }
+    h1 { font-size: clamp(1.8rem, 6vw, 3.2rem); font-weight: 800; margin: 0; }
+    p  { color: #94a3b8; font-size: clamp(.9rem, 3vw, 1.1rem); margin: 0; max-width: 32rem; line-height: 2; }
+    .meme {
+      max-width: min(420px, 85vw); border-radius: 1rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,.55);
+    }
+    .fallback { font-size: 5rem; }
+    .tag { margin-top: .5rem; font-size: .8rem; color: #475569; }
+  </style>
+</head>
+<body>
+  <h1>جانم، چی می‌خوای داداش؟ 😏</h1>
+
+  <img class="meme"
+       src="{% static 'images/admin-meme.gif' %}"
+       alt="یه نگاه مشکوک"
+       onerror="this.style.display='none'; document.getElementById('fb').style.display='block';">
+  <div id="fb" class="fallback" style="display:none;">👀</div>
+
+  <p>اینجا چیزی برای دیدن نیست رفیق. در اشتباهی، ولی خب… دمت گرم که کنجکاوی. 🍵</p>
+  <div class="tag">۴۰۴ نیست، فقط بی‌خیال شو 🙂</div>
+</body>
+</html>
