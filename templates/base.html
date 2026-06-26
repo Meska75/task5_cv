@@ -6,58 +6,81 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="{% static 'images/favicon.png' %}" rel="icon">
   <title>{% block title %}محمد اسکندرلو — مهندس بک‌اند و هوش مصنوعی{% endblock %}</title>
-  <meta name="description" content="{% block description %}مهندس بک‌اند پایتون/جنگو و هوش مصنوعی — سازنده‌ی پلتفرم‌های داده‌محور و هوشمند.{% endblock %}">
+  <meta name="description" content="{% block description %}مهندس بک‌اند پایتون/جنگو و هوش مصنوعی — سازنده‌ی پلتفرم‌های داده‌محور و راه‌حل‌های هوشمند برای کسب‌وکارها.{% endblock %}">
 
-  <!-- Fonts: Vazirmatn (Persian) + JetBrains Mono (terminal/code accents) -->
   <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- Icons -->
   <link href="{% static 'vendor/font-awesome/css/all.min.css' %}" rel="stylesheet">
 
-  <!-- Tailwind (CDN for dev; compiled at deploy) -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            bg:      '#0F172A',
-            surface: '#1E293B',
-            surface2:'#334155',
-            accent:  '#22C55E',
-            accent2: '#4ADE80',
-            ink:     '#F8FAFC',
-            muted:   '#94A3B8',
+            bg:      '#0B1220',
+            bg2:     '#0E1A33',
+            surface: '#16243F',
+            surface2:'#1E3252',
+            amber:   '#F5A524',
+            amber2:  '#FFC55C',
+            ivory:   '#F4EFE7',
+            ink:     '#F1EBE0',
+            muted:   '#9FB0C6',
           },
-          fontFamily: {
-            sans: ['Vazirmatn', 'system-ui', 'sans-serif'],
-            mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
-          },
+          fontFamily: { sans: ['Vazirmatn', 'system-ui', 'sans-serif'] },
+          boxShadow: { glow: '0 0 60px -12px rgba(245,165,36,.45)' },
         },
       },
     };
   </script>
   <style>
     html { scroll-behavior: smooth; }
-    body { background: #0F172A; }
-    /* subtle dotted grid for the terminal/dev vibe */
-    .grid-bg {
-      background-image: radial-gradient(rgba(148,163,184,.08) 1px, transparent 1px);
-      background-size: 22px 22px;
+    body { background: #0B1220; }
+    /* warm/cool depth glows */
+    .ambient::before, .ambient::after {
+      content:""; position:absolute; border-radius:9999px; filter:blur(90px); z-index:0; pointer-events:none;
     }
-    .card-hover { transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
-    .card-hover:hover { transform: translateY(-4px); border-color: #22C55E; box-shadow: 0 12px 40px rgba(0,0,0,.45); }
-    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .card-hover { transition: none; } }
-    [x-cloak] { display: none !important; }
+    .ambient::before { width:38rem; height:38rem; background:rgba(245,165,36,.16); top:-10rem; right:-8rem; }
+    .ambient::after  { width:34rem; height:34rem; background:rgba(46,86,150,.30); bottom:-12rem; left:-10rem; }
+    .link-underline { position:relative; }
+    .link-underline::after { content:""; position:absolute; right:0; bottom:-4px; height:2px; width:0; background:#F5A524; transition:width .25s ease; }
+    .link-underline:hover::after { width:100%; }
+    /* scroll reveal */
+    [data-reveal]{ opacity:0; transform:translateY(26px); transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+    [data-reveal].in{ opacity:1; transform:none; }
+    [data-reveal][data-delay="1"]{ transition-delay:.08s; }
+    [data-reveal][data-delay="2"]{ transition-delay:.16s; }
+    [data-reveal][data-delay="3"]{ transition-delay:.24s; }
+    .lift{ transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+    .lift:hover{ transform:translateY(-6px); }
+    [x-cloak]{ display:none !important; }
+    @media (prefers-reduced-motion: reduce){
+      html{ scroll-behavior:auto; }
+      [data-reveal]{ opacity:1; transform:none; transition:none; }
+      .lift{ transition:none; }
+    }
   </style>
 
-  <!-- Interactivity -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
   {% block head_extra %}{% endblock %}
 </head>
-<body class="font-sans text-ink bg-bg antialiased">
+<body class="font-sans text-ink bg-bg antialiased selection:bg-amber/30">
+
+  {% include "partials/nav.html" %}
+
   {% block body %}{% endblock %}
+
+  {% include "partials/footer.html" %}
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('[data-reveal]').forEach(function (el) { io.observe(el); });
+    });
+  </script>
 </body>
 </html>

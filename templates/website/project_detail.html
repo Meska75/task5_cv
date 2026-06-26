@@ -6,12 +6,12 @@
 {% block body %}
 <div class="max-w-3xl mx-auto px-5 py-12 md:py-16">
 
-  <a href="{% url 'my_cv:index' %}#projects" class="font-mono text-sm text-muted hover:text-accent transition-colors inline-flex items-center gap-1">
+  <a href="{% url 'my_cv:index' %}#projects" class="font-mono text-sm text-muted hover:text-amber transition-colors inline-flex items-center gap-1">
     <span>→</span> بازگشت به پروژه‌ها
   </a>
 
   <div class="mt-8 flex flex-wrap items-center gap-3">
-    <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-accent/10 text-accent">{{ project.get_category_display }}</span>
+    <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-amber/10 text-amber">{{ project.get_category_display }}</span>
     {% if project.status == 'in_progress' %}<span class="font-mono text-xs text-yellow-400">در حال توسعه</span>{% endif %}
     {% if project.is_private %}<span class="font-mono text-xs text-muted">🔒 پروژه‌ی خصوصی</span>{% endif %}
   </div>
@@ -26,26 +26,26 @@
   <div class="mt-10 space-y-8">
     {% if project.problem %}
     <div class="bg-surface/40 border border-surface2/50 rounded-2xl p-6 md:p-8">
-      <h2 class="font-mono text-accent text-sm mb-3">// مشکل</h2>
+      <h2 class="font-mono text-amber text-sm mb-3">// مشکل</h2>
       <p class="leading-loose text-ink/90">{{ project.problem }}</p>
     </div>
     {% endif %}
     {% if project.solution %}
     <div class="bg-surface/40 border border-surface2/50 rounded-2xl p-6 md:p-8">
-      <h2 class="font-mono text-accent text-sm mb-3">// راه‌حل</h2>
+      <h2 class="font-mono text-amber text-sm mb-3">// راه‌حل</h2>
       <p class="leading-loose text-ink/90">{{ project.solution }}</p>
     </div>
     {% endif %}
     {% if project.outcome %}
     <div class="bg-surface/40 border border-surface2/50 rounded-2xl p-6 md:p-8">
-      <h2 class="font-mono text-accent text-sm mb-3">// نتیجه</h2>
+      <h2 class="font-mono text-amber text-sm mb-3">// نتیجه</h2>
       <p class="leading-loose text-ink/90">{{ project.outcome }}</p>
     </div>
     {% endif %}
   </div>
 
   <div class="mt-10">
-    <h2 class="font-mono text-accent text-sm mb-3">// تک‌استک</h2>
+    <h2 class="font-mono text-amber text-sm mb-3">// تک‌استک</h2>
     <div class="flex flex-wrap gap-2">
       {% for s in project.skills.all %}
       <span class="font-mono text-sm text-muted bg-bg border border-surface2/50 px-3 py-1.5 rounded">{{ s.name }}</span>
@@ -56,10 +56,10 @@
   {% if project.github_url or project.live_url %}
   <div class="mt-10 flex flex-wrap gap-3">
     {% if project.live_url %}
-    <a href="{{ project.live_url }}" target="_blank" rel="noopener" class="bg-accent text-bg font-medium px-5 py-3 rounded-lg hover:bg-accent2 transition-colors">مشاهده‌ی زنده</a>
+    <a href="{{ project.live_url }}" target="_blank" rel="noopener" class="bg-amber text-bg font-medium px-5 py-3 rounded-lg hover:bg-amber2 transition-colors">مشاهده‌ی زنده</a>
     {% endif %}
     {% if project.github_url %}
-    <a href="{{ project.github_url }}" target="_blank" rel="noopener" class="border border-surface2 px-5 py-3 rounded-lg hover:border-accent transition-colors inline-flex items-center gap-2"><i class="fab fa-github"></i> کد روی گیت‌هاب</a>
+    <a href="{{ project.github_url }}" target="_blank" rel="noopener" class="border border-surface2 px-5 py-3 rounded-lg hover:border-amber transition-colors inline-flex items-center gap-2"><i class="fab fa-github"></i> کد روی گیت‌هاب</a>
     {% endif %}
   </div>
   {% elif project.is_private %}
