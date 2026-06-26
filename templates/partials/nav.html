@@ -1,0 +1,72 @@
+{% load static %}
+<header x-data="{ open:false }">
+
+  <!-- top bar: brand + CTA + mobile toggle -->
+  <div class="fixed top-0 inset-x-0 z-50">
+    <div class="max-w-7xl mx-auto px-5 h-[68px] flex items-center justify-between">
+      <a href="#hero" class="flex items-center gap-2.5">
+        <span class="grid place-items-center w-9 h-9 rounded-xl bg-gradient-to-br from-amber to-amber2 text-bg font-extrabold shadow-glow">م</span>
+        <span class="font-bold tracking-tight">محمد اسکندرلو</span>
+      </a>
+
+      <a href="#contact"
+         class="hidden lg:inline-flex items-center gap-2 text-sm font-semibold bg-amber text-bg px-5 py-2.5 rounded-xl hover:bg-amber2 transition-colors shadow-glow">
+        شروع همکاری <i class="fas fa-arrow-left text-xs"></i>
+      </a>
+
+      <button @click="open=!open" class="lg:hidden text-ink p-2" aria-label="منو">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- vertical right rail with scroll-spy (desktop) -->
+  <nav id="side-nav" class="hidden lg:flex fixed right-7 top-1/2 -translate-y-1/2 z-50 flex-col items-end gap-5">
+    <a data-spy="hero"     href="#hero"     class="spy-link">خانه <span class="line"></span></a>
+    <a data-spy="intro"    href="#intro"    class="spy-link">معرفی <span class="line"></span></a>
+    <a data-spy="services" href="#services" class="spy-link">خدمات <span class="line"></span></a>
+    <a data-spy="about"    href="#about"    class="spy-link">درباره <span class="line"></span></a>
+    <a data-spy="projects" href="#projects" class="spy-link">نمونه‌کارها <span class="line"></span></a>
+    <a data-spy="contact"  href="#contact"  class="spy-link">تماس <span class="line"></span></a>
+  </nav>
+
+  <!-- mobile menu -->
+  <div x-show="open" x-cloak @click="open=false"
+       class="lg:hidden fixed top-[68px] inset-x-0 z-40 bg-bg2/95 backdrop-blur border-y border-white/5 px-5 py-5 flex flex-col gap-4 text-muted">
+    <a href="#services">خدمات</a>
+    <a href="#about">درباره</a>
+    <a href="#projects">نمونه‌کارها</a>
+    <a href="#contact">تماس</a>
+    <a href="#contact" class="bg-amber text-bg text-center font-semibold px-5 py-2.5 rounded-xl">شروع همکاری</a>
+  </div>
+</header>
+
+<style>
+  .spy-link{ display:flex; align-items:center; gap:.55rem; color:#9FB0C6; font-size:14px; transition:color .3s ease; }
+  .spy-link .line{ display:block; height:2px; width:14px; background:currentColor; opacity:.35; border-radius:2px; transition:width .3s ease, opacity .3s ease; }
+  .spy-link:hover{ color:#F1EBE0; }
+  .spy-link.active{ font-weight:700; }
+  .spy-link.active .line{ width:34px; opacity:1; }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var links = {};
+    document.querySelectorAll('#side-nav .spy-link').forEach(function (a) { links[a.getAttribute('data-spy')] = a; });
+    // each section lights its nav item in its own color
+    var colors = { hero:'#F5A524', intro:'#F5A524', services:'#34D399', about:'#38BDF8', projects:'#A78BFA', contact:'#FB7185' };
+    var ids = Object.keys(links);
+
+    function setActive(id) {
+      ids.forEach(function (k) { links[k].classList.remove('active'); links[k].style.color = ''; });
+      var a = links[id];
+      if (a) { a.classList.add('active'); a.style.color = colors[id] || '#F5A524'; }
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) setActive(e.target.id); });
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+
+    ids.forEach(function (id) { var el = document.getElementById(id); if (el) io.observe(el); });
+  });
+</script>
